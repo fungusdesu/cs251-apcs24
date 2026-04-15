@@ -1,1 +1,2 @@
-# cs251-apcs24
+# Logical Structures
+abstract nonsense
