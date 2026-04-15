@@ -1,0 +1,396 @@
+\documentclass{exam}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[main=english, vietnamese]{babel}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{tcolorbox}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{centernot}
+\usepackage{multicol}
+\usepackage{cases}
+\usepackage{physics}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tasks}
+\usepackage{cancel}
+\usepackage{tikz-qtree}
+
+\tikzset{
+	every tree node/.style={
+		draw,
+		circle,
+		minimum size=8mm,
+		inner sep=1pt
+	},
+	level distance=15mm,
+	edge from parent/.style={
+		draw,
+        edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}
+	}
+}
+
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\curly}[1]{\left\{#1\right\}}
+\newcommand{\lxor}{\oplus}
+\newcommand{\rel}{\mathrel{R}}
+\newcommand{\nrel}{\mathrel{\cancel{R}}}
+
+\allowdisplaybreaks
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\makeatletter
+\long\def\paragraph{%
+  \@startsection{paragraph}{4}%
+  {\z@}{2ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+
+\makeatletter
+\def\@xequals@fill{\arrowfill@\Relbar\Relbar\Relbar}
+\newcommand*\xequals[2][]{\DOTSB\ext@arrow0055\@xequals@fill{#1}{#2}}
+\makeatother
+
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\nullity}{nullity}
+
+\newbox\mizukibox
+\setbox\mizukibox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{mizuki.png}}}
+\def\mizuki{\copy\mizukibox}
+
+\newbox\skullbox
+\setbox\skullbox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{skull.png}}}
+\def\bendingskull{\copy\skullbox}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\NewTColorBox{problem}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Problem #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\NewTColorBox{lemma}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Lemma #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\renewcommand\qedsymbol{$\mizuki$}
+
+\title{CS252 - Homework 1}
+\author{\foreignlanguage{vietnamese}{Trần Tôn Minh Kỳ}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{problem}{2.1.2}
+Use the predicate specifications
+\begin{align*}
+	B(x, y) & :\quad \text{$x$ beats $y$} \\
+	F(x) & :\quad \text{$x$ is an (American) football team} \\
+	Q(x, y) & :\quad \text{$x$ is a quarterback of $y$} \\
+	L(x, y) & :\quad \text{$x$ loses to $y$}
+\end{align*}
+and the constant symbols
+\begin{align*}
+	c & :\quad \text{Wildcats} \\
+	j & :\quad \text{Jayhawks}
+\end{align*}
+to translate the following into predicate logic.
+\begin{tasks}[label=\textbf{\alph*.}]
+	\task Every football team has a quarterback.
+	\task If the Jayhawks beat the Wildcats, then the Jayhawks do not lose to every football team.
+	\task The Wildcats beat some team, which beat the Jayhawks.
+\end{tasks}
+\end{problem}
+
+\paragraph{a.} $\forall x(F(x) \rightarrow \exists y Q(y, x))$.
+
+\paragraph{b.} $B(j, c) \rightarrow \forall x(F(x) \rightarrow \lnot L(j, x))$.
+
+\paragraph{c.} $\exists x (F(x) \land B(c, x) \land B(x, j))$.
+
+\begin{problem}{2.1.4}
+	Let $F(x, y)$ mean that $x$ is the father of $y$; $M(x, y)$ denotes $x$ is the mother of $y$. Similarly, $H(x, y)$, $S(x, y)$, and $B(x, y)$ say that $x$ is the husband/sister/brother of $y$, respectively. You may also use constants to denote individuals, like `Ed' and `Patsy.' However, you are not allowed to use any predicate symbols other than the above to translate the following sentences into predicate logic:
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task Everybody has a mother.
+		\task Everybody has a father and a mother.
+		\task Whoever has a mother has a father.
+		\task Ed is a grandfather.
+		\task All fathers are parents.
+		\task All husbands are spouses.
+		\task No uncle is an aunt.
+		\task All brothers are siblings.
+		\task Nobody's grandmother is anybody's father.
+		\task Ed and Patsy are husband and wife.
+		\task Carl is Monique's brother in law.
+	\end{tasks}
+\end{problem}
+
+\paragraph{a.} $\forall x\exists y M(y, x)$.
+
+\paragraph{b.} $\forall x \exists y \exists z (F(y, x), M(z, x))$.
+
+\paragraph{c.} $\forall x(\exists y M(y, x) \rightarrow \exists y F(y, x))$.
+
+\paragraph{d.} $\exists x \exists y ((F(y, x) \lor M(y, x)) \land F(\text{Ed}, y))$.
+
+\paragraph{e.} $\forall x (\exists y F(x, y) \rightarrow \exists y (F(x, y) \lor M(x, y)))$.
+
+\paragraph{f.} $\forall x (\exists y H(x, y) \rightarrow \exists y (H(x, y) \lor H(y, x)))$.
+
+\paragraph{g.} $\lnot \exists x((\exists y\exists z ((F(y, z) \lor M(y, z)) \land B(x, y)) \lor \exists y \exists z \exists w ((F(z, w) \lor M(z, w)) \land S(y, z) \land H(x, y))) \land (\exists y\exists z ((\allowbreak F(y, z) \lor M(y, z)) \land S(x, y)) \lor \exists y \exists z \exists w ((F(z, w) \lor M(z, w)) \land B(y, z) \land H(y, x))))$.
+
+\paragraph{h.} $\forall x (\exists y B(x, y) \rightarrow \exists y (B(x, y) \lor S(x, y)))$.
+
+\paragraph{i.} $\lnot \exists x ((\exists y \exists z((F(y, z) \lor M(y, z)) \land M(x, y))) \land \exists y F(x, y))$.
+
+\paragraph{j.} $H(\text{Ed}, \text{Patsy}) \lor H(\text{Patsy}, \text{Ed})$.
+
+\paragraph{k.} $\exists x ((H(x, \text{Monique}) \land B(\text{Carl}, x)) \lor (H(\text{Monique}, x) \land B(\text{Carl}, x)))$.
+
+\begin{problem}{2.2.1}
+	Let $\mathcal F$ be $\{d, f, g\}$, where $d$ is a constant, $f$ a function symbol with three arguments and $g$ a function symbol with two arguments.
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task Which of the following strings are terms over $\mathcal F$? Draw the parse tree of those strings which are indeed terms:
+		\begin{enumerate}[i.]
+			\item $g(d, d)$
+			\item $f(x, g(y, z), d)$
+			\item $g(x, f(y, z), d)$
+			\item $g(x, h(y, z), d)$
+			\item $f(f(g(d, x), f(g(d, x), y, g(y, d)), g(d, d)), g(f(d, d, x), d), z)$
+		\end{enumerate}
+		\task The length of a term over $\mathcal F$ is the length of its string representation, where we count all commas and parentheses. For example, the length of $f(x, g(y, z), z)$ is $13$. List all variable-free terms over $\mathcal F$ of length less than $10$.
+		\task The height of a term over $\mathcal F$ is defined as $1$ plus the length of the longest path in its parse tree, as in \textbf{Definition 1.32}. List all variable-free terms over $\mathcal F$ of height less than $4$.
+	\end{tasks}
+\end{problem}
+
+\paragraph{a.}
+The string $g(d, d)$ is a term.
+\begin{center}
+	\Tree[ .$g$	[ .$d$ ]
+				[ .$d$ ] ]
+\end{center}
+
+The string $f(x, g(y, z), d)$ is a term.
+\begin{center}
+	\Tree[ .$f$	[ .$x$ ]
+				[ .$g$	[ .$y$ ]
+						[ .$z$ ] ]
+				[ .$d$ ] ]
+\end{center}
+
+The string $g(x, f(y, z), d)$ is not a term, due to the $g$ function with arity $2$ taking in $3$ arguments.
+
+The string $g(x, h(y, z), d)$ is not a term, due to the undefined symbol $h$.
+
+The string $f(f(g(d, x), f(g(d, x), y, g(y, d)), g(d, d)), g(f(d, d, x), d), z)$ is a term.
+\begin{center}
+	\Tree[ .$f$	[ .$f$	[ .$g$	[ .$d$ ]
+								[ .$x$ ] ]
+						[ .$f$	[ .$g$	[ .$d$ ]
+										[ .$x$ ] ]
+								[ .$y$ ]
+								[ .$g$	[ .$y$ ]
+										[ .$d$ ] ] ]
+						[ .$g$	[ .$d$ ]
+								[ .$d$ ] ] ]
+				[ .$g$	[ .$f$	[ .$d$ ]
+								[ .$d$ ]
+								[ .$x$ ] ]
+						[ .$d$ ] ]
+				[ .$z$ ] ]
+\end{center}
+
+\paragraph{b.} $d$, $f(d, d, d)$, $g(d, d)$.
+
+\paragraph{c.} $d$, $g(d, d)$, $f(d, d, d)$.
+
+\begin{problem}{2.2.2}
+	Draw the parse tree of the term $(2 - s(x)) + (y * x)$, considering that $-$, $+$, and $*$ are used in infix in this term. Compare your solution with the parse tree in Figure 2.14.\
+	\begin{center}
+		\Tree[ .$*$	[ .$-$	[ .$2$ ]
+							[ .$+$	[ .$s$	[ .$x$ ] ]
+									[ .$y$ ] ] ]
+					[ .$x$ ] ]
+	\end{center}
+\end{problem}
+
+\begin{center}
+	\Tree[ .$+$	[ .$-$	[ .$2$ ]
+						[ .$s$	[ .$x$ ] ] ]
+				[ .$*$	[ .$y$ ]
+						[ .$x$ ] ] ]
+\end{center}
+
+The parse tree in Figure 2.14 is the parse tree of the term $(2 - s(x) + y) * x$.
+
+\begin{problem}{2.2.3}
+	Which of the following strings are formulas in predicate logic? Specify a reason for failure for strings which aren't, draw parse trees of all strings which are.
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task Let $m$ be a constant, $f$ a function symbol with one argument and $S$ and $B$ two predicate symbols, each with two arguments:
+		\begin{enumerate}[i.]
+			\item $S(m, x)$
+			\item $B(m, f(m))$
+			\item $f(m)$
+			\item $B(B(m, x), y)$
+			\item $S(B(m), z)$
+			\item $(B(x, y) \rightarrow (\exists z S(z, y)))$
+			\item $(S(x, y) \rightarrow S(y, f(f(x))))$
+			\item $(B(x) \rightarrow B(B(x)))$
+		\end{enumerate}
+		\task Let $c$ and $d$ be constants, $f$ a function symbol with one argument, $g$ a function symbol with two arguments and $h$ a function symbol with three arguments. Furthermore, $P$ and $Q$ are predicate symbols with three arguments:
+		\begin{enumerate}[i.]
+			\item $\forall x P(f(d), h(g(c, x), d, y))$
+			\item $\forall x P(f(d), h(P(x, y), d, y))$
+			\item $\forall x Q(g(h(x, f(d), x), g(x, x)), h(x, x, x), c)$
+			\item $\exists z (Q(z, z, z) \rightarrow P(z))$
+			\item $\forall x\forall y (g(x, y) \rightarrow P(x, y, x))$
+			\item $Q(c, d, c)$
+		\end{enumerate}
+	\end{tasks}
+\end{problem}
+
+\paragraph{a.}
+The string $S(m, x)$ is a formula.
+\begin{center}
+	\Tree[ .$S$	[ .$m$ ]
+				[ .$x$ ] ]
+\end{center}
+
+The string $B(m, f(m))$ is a formula.
+\begin{center}
+	\Tree[ .$B$	[ .$m$ ]
+				[ .$f$	[ .$m$ ] ] ]
+\end{center}
+
+The string $f(m)$ is not a formula, since $f(m)$ itself is not an argument of any predicate and thus is a term instead.
+
+The string $B(B(m, x), y)$ is not a formula, since $B(B(m, x), y)$ takes in a formula $B(m, x)$ instead of a term.
+
+The string $S(B(m), z)$ is not a formula, since the string $B(m)$ is not a formula nor term ($B$ is a binary predicate taking in only one argument)
+
+The string $(B(x, y) \rightarrow (\exists z S(z, y)))$ is a formula.
+\begin{center}
+	\Tree[ .$\rightarrow$	[ .$B$	[ .$x$ ]
+									[ .$y$ ] ]
+							[ .$\exists z$	[ .$S$	[ .$z$ ]
+													[ .$y$ ] ] ] ]
+\end{center}
+
+The string $(S(x, y) \rightarrow S(y, f(f(x))))$ is a formula.
+\begin{center}
+	\Tree[ .$\rightarrow$	[ .$S$	[ .$x$ ]
+									[ .$y$ ] ]
+							[ .$S$	[ .$y$ ]
+									[ .$f$ 	[ .$f$	[ .$x$ ] ] ] ] ]
+\end{center}
+
+The string $(B(x) \rightarrow B(B(x)))$ is not a formula due to tbe illegal predicate $B(B(x))$ taking in a formula and not a term.
+
+\paragraph{b.}
+The string $\forall x P(f(d), h(g(c, x), d, y))$ is not a valid formula, due to the predicate $P$ appearing in the substring $P(f(d), h(g(c, x), d, y))$ with arity $3$ taking in only two arguments.
+
+The string $\forall x P(f(d), h(P(x, y), d, y))$ is not a formula, due to the predicate $P$ in the substring $P(x, y)$ with arity $3$ taking in only two arguments.
+
+The string $\forall x Q(g(h(x, f(d), x), g(x, x)), h(x, x, x), c)$ is a formula.
+\begin{center}
+	\Tree[ .$\forall x$	[ .$Q$	[ .$g$	[ .$h$	[ .$x$ ]
+												[ .$f$	[ .$d$ ] ]
+												[ .$x$ ] ]
+										[ .$g$	[ .$x$ ]
+												[ .$x$ ] ] ]
+								[ .$h$	[ .$x$ ]
+										[ .$x$ ]
+										[ .$x$ ] ]
+								[ .$c$ ] ] ]
+\end{center}
+
+The string $\exists z (Q(z, z, z) \rightarrow P(z))$ is not a formula, since the predicate $P$ in the substring $P(z)$ with arity $3$ taking in only one argument.
+
+The string $\forall x\forall y (g(x, y) \rightarrow P(x, y, x))$ is not a formula due to the illegal implication whose left side is a term $g(x, y)$ instead of a formula.
+
+The string $Q(c, d, c)$ is a formula.
+\begin{center}
+	\Tree[ .$Q$	[ .$c$ ]
+				[ .$d$ ]
+				[ .$c$ ] ]
+\end{center}
+
+\begin{problem}{2.2.5}
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task Let $P$ be a predicate symbol with arity $3$. Draw the parse tree of $\psi \xequals{\text{def}} \lnot (\forall x ((\exists y P(x, y, z)) \land (\forall z P(x, y, z))))$.
+		\task Indicate the free and bound variables in that parse tree.
+		\task List all variables which occur free and bound therein.
+		\task Compute $\psi[t/x]$, $\psi[t/y]$ and $\psi[t/z]$, where $t \xequals{\text{def}} g(f(g(y, y)), y)$. Is $t$ free for $x$ in $\psi$; free for $y$ in $\psi$; free for $z$ in $\psi$?
+	\end{tasks}
+\end{problem}
+
+\paragraph{a, b, c.}
+\begin{center}
+	\Tree[ .$\lnot$	[ .$\land$	[ .$\forall x$	[ .$\exists y$	[ .$P$	[ .$x$	[ .\node[draw=none]{\scriptsize bound}; ] ]
+																		[ .$y$	[ .\node[draw=none]{\scriptsize bound}; ] ]
+																		[ .$z$ 	[ .\node[draw=none]{\scriptsize free}; ] ] ] ] ]
+								[ .$\forall z$	[ .$P$	[ .$x$	[ .\node[draw=none]{\scriptsize free}; ] ]
+														[ .$y$	[ .\node[draw=none]{\scriptsize free}; ] ]
+														[ .$z$	[ .\node[draw=none]{\scriptsize bound}; ] ] ] ] ] ]
+\end{center}
+
+\paragraph{d.}
+Performing the substitution $\phi[t/x]$, we yield
+\[
+	\lnot (\forall x ((\exists y P(x, y, z)) \land (\forall z P(g(f(g(y, y)), y), y, z)))).
+\]
+Because no variables in the parse tree of $t$ is captured in $\psi$, we have $t$ is free for $x$ in $\psi$.
+
+Performing the substituion $\phi[t/y]$, we yield 
+\[
+	\lnot (\forall x ((\exists y P(x, y, z)) \land \forall z(P(x, g(f(g(y, y)), y), z)))).
+\]
+Because no variables in the parse tree of $t$ is captured in $\psi$, we have $t$ is free for $y$ in $\psi$.
+
+Performing the substitution $\phi[t/z]$, we yield
+\[
+	\lnot (\forall x ((\exists y P(x, y, g(f(g(y, y)), y))) \land (\forall z P(x, y, z)))).
+\]
+Because the variable $y$ is captured to the symbol $\exists y$, we have $t$ is not free for $z$ in $\psi$.
+
+\end{document}
