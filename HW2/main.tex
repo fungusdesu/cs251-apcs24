@@ -1,0 +1,638 @@
+\documentclass{exam}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[main=english, vietnamese]{babel}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{tcolorbox}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{centernot}
+\usepackage{multicol}
+\usepackage{cases}
+\usepackage{physics}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tasks}
+\usepackage{cancel}
+\usepackage{tikz-qtree}
+\usepackage{stix2}
+\usepackage{logicproof}
+
+\tikzset{
+	every tree node/.style={
+		draw,
+		circle,
+		minimum size=8mm,
+		inner sep=1pt
+	},
+	level distance=15mm,
+	edge from parent/.style={
+		draw,
+        edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}
+	}
+}
+
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\curly}[1]{\left\{#1\right\}}
+\newcommand{\lxor}{\oplus}
+\newcommand{\rel}{\mathrel{R}}
+\newcommand{\nrel}{\mathrel{\cancel{R}}}
+
+\allowdisplaybreaks
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\makeatletter
+\long\def\paragraph{%
+  \@startsection{paragraph}{4}%
+  {\z@}{2ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+
+\makeatletter
+\def\@xequals@fill{\arrowfill@\Relbar\Relbar\Relbar}
+\newcommand*\xequals[2][]{\DOTSB\ext@arrow0055\@xequals@fill{#1}{#2}}
+\makeatother
+
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\nullity}{nullity}
+
+\newbox\mizukibox
+\setbox\mizukibox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{mizuki.png}}}
+\def\mizuki{\copy\mizukibox}
+
+\newbox\skullbox
+\setbox\skullbox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{skull.png}}}
+\def\bendingskull{\copy\skullbox}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\NewTColorBox{problem}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Problem #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\NewTColorBox{lemma}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Lemma #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\renewcommand\qedsymbol{$\mizuki$}
+
+\title{CS251 - Homework 2}
+\author{\foreignlanguage{vietnamese}{Trần Tôn Minh Kỳ}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{lemma}{1}
+	$t_1 = t_2 \vdash t_2 = t_1$.
+\end{lemma}
+
+\begin{logicproof}{1}
+	t_1 = t_2 & premise \\
+	t_1 = t_1 & $=$i \\
+	t_2 = t_1 & $=$e 1, 2 \qed
+\end{logicproof}
+
+\begin{problem}{2.3.1}
+	Prove the validity of the following sequents using, among others, the rule $=$i and $=$e. Make sure that you indicate for each application of $=$e what the rule instances $\phi$, $t_1$ and $t_2$ are.
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task $(y = 0) \land (y = x) \vdash 0 = x$.
+		\task $t_1 = t_2 \vdash (t + t_2) = (t + t_1)$.
+		\task $(x = 0) \lor ((x + x) > 0) \vdash (y = (x + x)) \rightarrow ((y > 0) \lor (y = (0 + x)))$.
+	\end{tasks}
+\end{problem}
+
+\paragraph{a.}
+\begin{center}
+	\begin{logicproof}{1}
+		(y = 0) \land (y = x) 	& premise \\
+		y = 0 					& $\land$e$_1$ 1 \\
+		y = x					& $\land$e$_2$ 1 \\
+		0 = x					& $=$e 2, 3 \qed
+	\end{logicproof}
+\end{center}
+The rule of inference $=$e at line $4$ is instantiated with $\phi$ being $t_1 = x$, $t_1$ being $y$, and $t_2$ being $0$.
+
+\paragraph{b.} Due to notation clash, we redefine the equality elimination instantiation parameters $t_1$ and $t_2$ to $t_1'$ and $t_2'$, respectively.
+\begin{center}
+	\begin{logicproof}{1}
+		t_1 = t_2			& premise \\
+		t + t_1 = t + t_1	& $=$i \\
+		t + t_2 = t + t_1	& $=$e 1, 2 \qed
+	\end{logicproof}
+\end{center}
+The rule of inference $=$e at line 3 is instantiated with $\phi$ being $t + t_1' = t + t_1$, $t_1'$ being $t_1$, and $t_2'$ being $t_2$.
+
+\newpage
+\paragraph{c.}
+\begin{center}
+	\begin{logicproof}{2}
+		(x = 0) \lor ((x + x) > 0) & premise \\
+		\begin{subproof}
+			y = (x + x) & assumption \\
+			\begin{subproof}
+				x = 0 & assumption \\
+				y = (0 + x) & $=$e 3, 2 \\
+				(y > 0) \lor (y = (0 + x)) & $\lor$i$_4$ 4
+			\end{subproof}
+			\begin{subproof}
+				(x + x) > 0 & assumption \\
+				(x + x) = y & (Lemma 1), 2 \\
+				y > 0 & $=$e 7, 6 \\
+				(y > 0) \lor (y = (0 + x)) & $\lor$i$_1$ 8
+			\end{subproof}
+			(y > 0) \lor (y = (0 + x)) & $\lor$e 1, 3--5, 6--9
+		\end{subproof}
+		(y = (x + x)) \rightarrow ((y > 0) \lor (y = (0 + x))) & $\rightarrow$i 2--10 \qed
+	\end{logicproof}
+\end{center}
+The rule of inference $=$e at line 4 is instantiated with $\phi$ being $y = (t_1 + x)$, $t_1$ being $x$, and $t_2$ being $0$.
+
+The rule of inference $=$e at line $3$ in the Lemma 1 instantiation at line $7$ is instantiated with $\phi$ being $t_1 = y$, $t_1$ being $y$, $t_2$ being $x + x$.
+
+The rule of inference $=$e at line $8$ is instantiated with $\phi$ being $t_1 > 0$, $t_1$ being $x + x$, and $t_2$ being $y$.
+
+\begin{problem}{2.3.4}
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task Find a (propositional) proof for $\phi \rightarrow (q_1 \land q_2) \vdash (\phi \rightarrow q_1) \land (\phi \rightarrow q_2)$.
+		\task Find a (predicate) proof for $\phi \rightarrow \forall x Q(x) \vdash \forall x (\phi \rightarrow Q(x))$, provided that $x$ is not free in $\phi$.
+		\task Find a proof for $\forall x (P(x) \rightarrow Q(x)) \vdash \forall x P(x) \rightarrow \forall x Q(x)$.
+	\end{tasks}
+\end{problem}
+
+\paragraph{a.}
+\begin{logicproof}{1}
+	\phi \rightarrow (q_1 \land q_2) & premise \\
+	\begin{subproof}
+		\phi & assumption \\
+		q_1 \land q_2 & $\rightarrow$e 1, 2 \\
+		q_1 & $\land$e$_1$ 3
+	\end{subproof}
+	\phi \rightarrow q_1 & $\rightarrow$i 2--4 \\
+	\begin{subproof}
+		\phi & assumption \\
+		q_1 \land q_2 & $\rightarrow$e 1, 6 \\
+		q_2 & $\land$e$_2$ 7
+	\end{subproof}
+	\phi \rightarrow q_2 & $\rightarrow$i 6--8 \\
+	(\phi \rightarrow q_1) \land (\phi \rightarrow q_2) & $\land$i 5, 9 \qed
+\end{logicproof}
+
+\paragraph{b.}
+\begin{logicproof}{2}
+	\phi \rightarrow \forall x Q(x) & premise \\
+	\begin{subproof}
+		x_0 & assumption \\
+		\begin{subproof}
+			\phi & assumption \\
+			\forall x Q(x) & $\rightarrow$e 1, 2 \\
+			Q(x_0) & $\forall$e 4
+		\end{subproof}
+		\phi \rightarrow Q(x_0) & $\rightarrow$i 3--5
+	\end{subproof}
+	\forall x (\phi \rightarrow Q(x)) & $\forall$i 2--6 \qed
+\end{logicproof}
+
+\paragraph{c.}
+\begin{logicproof}{2}
+	\forall x (P(x) \rightarrow Q(x)) & premise \\
+	\begin{subproof}
+		\forall x P(x) & assumption \\
+		\begin{subproof}
+			x_0 & assumption \\
+			P(x_0) \rightarrow Q(x_0) & $\forall$e 1 \\
+			P(x_0) & $\forall x$e 2 \\
+			Q(x_0) & $\rightarrow$e 4, 5
+		\end{subproof}
+		\forall x Q(x) & $\forall$i 3--6
+	\end{subproof}
+	\forall x P(x) \rightarrow \forall x Q(x) & $\rightarrow$i 2--7 \qed
+\end{logicproof}
+
+\begin{problem}{2.3.6}
+	Provide proofs for the following sequents:
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task $\forall x P(x) \vdash \forall y P(y)$; using $\forall x P(x)$ as a premise, your proof needs to end with an application of $\forall$i which requires the formula $P(y_0)$.
+		\task $\forall x (P(x) \rightarrow Q(x)) \vdash (\forall x \lnot Q(x)) \rightarrow (\forall x \lnot P(x))$.
+		\task $\forall x (P(x) \rightarrow \lnot Q(x)) \vdash \lnot(\exists x (P(x) \land Q(x)))$.
+	\end{tasks}
+\end{problem}
+
+\paragraph{a.}
+\begin{logicproof}{2}
+	\forall x P(x) & premise \\
+	\begin{subproof}
+		y_0 & assumption \\
+		P(y_0) & $\forall$e 1
+	\end{subproof}
+	\forall y P(y) & $\forall$i 2--3 \qed
+\end{logicproof}
+
+\paragraph{b.}
+\begin{logicproof}{2}
+	\forall x (P(x) \rightarrow Q(x)) & premise \\
+	\begin{subproof}
+		\forall x \lnot Q(x) & assumption \\
+		\begin{subproof}
+			x_0 & assumption \\
+			\lnot Q(x_0) & $\forall$e 2 \\
+			P(x_0) \rightarrow Q(x_0) & $\forall$e 1 \\
+			\lnot P(x_0) & MT 5, 4
+		\end{subproof}
+		\forall x \lnot P(x)
+	\end{subproof}
+	(\forall x \lnot Q(x)) \rightarrow (\forall x \lnot P(x)) & $\rightarrow$i 2--7 \qed
+\end{logicproof}
+
+\newpage
+\paragraph{c.}
+\begin{logicproof}{2}
+	\forall x (P(x) \rightarrow \lnot Q(x)) & premise \\
+	\begin{subproof}
+		\lnot\lnot(\exists x (P(x) \land Q(x))) & assumption \\
+		\exists x (P(x) \land Q(x)) & $\lnot\lnot$e 2 \\
+		\begin{subproof}
+			x_0 & assumption \\
+			P(x_0) \land Q(x_0) & assumption \\
+			P(x_0) & $\land$e$_1$ 5 \\
+			Q(x_0) & $\land$e$_2$ 5 \\
+			P(x_0) \rightarrow \lnot Q(x_0) & $\forall$e 1 \\
+			\lnot Q(x_0) & $\rightarrow$e 8, 6 \\
+			\perp & $\lnot$i 6, 8
+		\end{subproof}
+		\perp & $\exists$e 2, 3--9
+	\end{subproof}
+	\lnot (\exists x (P(x) \land Q(x))) & PBC 2--11 \qed
+\end{logicproof}
+
+\begin{lemma}{2 (DeMorgan)}
+	\[
+		\lnot (\phi \land \psi) \dashVdash \lnot \phi \lor \lnot \psi
+	\]
+	\[		
+		\lnot (\phi \lor \psi) \dashVdash \lnot \phi \land \lnot \psi
+	\]
+\end{lemma}
+\begin{proof}
+	Well-known.
+\end{proof}
+
+\begin{lemma}{3 ($\lnot\forall$-elimination)}
+	\[
+		\lnot \forall x \phi \dashVdash \exists x \lnot \phi
+	\]
+\end{lemma}
+\begin{proof}
+	Well-known.
+\end{proof}
+
+\begin{lemma}{4 ($\lnot\exists$-elimination)}
+	\[
+		\lnot \exists x \phi \dashVdash \forall x \lnot \phi
+	\]
+\end{lemma}
+\begin{proof}
+	Well-known.
+\end{proof}
+
+\begin{problem}{2.3.9}
+	Prove the validity of the following sequents in predicate logic, where $F$, $G$, $P$, and $Q$ have arity $1$, and $S$ has arity $0$ (a `propositional atom'):
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task[\textbf{b.}] $S \rightarrow \exists x Q(x) \vdash \exists x (S \rightarrow Q(x))$.
+		\task[\textbf{e.}] $\forall x (P(x) \lor Q(x)) \vdash \forall x P(x) \lor \exists x Q(x)$.
+		\task[\textbf{i.}] $\exists x (\lnot P(x) \land \lnot Q(x)) \vdash \exists x (\lnot (P(x) \land Q(x)))$.
+	\end{tasks}
+\end{problem}
+
+\newpage
+\paragraph{b.}
+\begin{logicproof}{2}
+	S \rightarrow \exists x Q(x) & premise \\
+	\begin{subproof}
+		x_0 & assumption \\
+		\begin{subproof}
+			S & assumption \\
+			\exists x Q(x) & $\rightarrow$e 1, 3 \\
+			Q(x_0) & assumption
+		\end{subproof}
+		S \rightarrow Q(x_0) & $\rightarrow$i 3--5 \\
+		\exists x (S \rightarrow Q(x)) & $\exists$i 6
+	\end{subproof}
+	\exists x (S \rightarrow Q(x)) & copy 7 \qed
+\end{logicproof}
+
+\paragraph{e.}
+\begin{logicproof}{2}
+	\forall x (P(x) \lor Q(x)) & premise \\
+	\begin{subproof}
+		\lnot (\forall x P(x) \lor \exists x Q(x)) & assumption \\
+		\lnot\forall x P(x) \land \lnot\exists x Q(x) & DeMorgan 2 \\
+		\lnot\forall x P(x) & $\land$e$_1$ 3 \\
+		\exists x (\lnot P(x)) & $\lnot\exists$e 4 \\
+		\lnot\exists x Q(x) & $\land$e$_2$ 3 \\
+		\forall x (\lnot Q(x)) & $\lnot\forall$e 6 \\
+		\begin{subproof}
+			x_0 & assumption \\
+			\lnot P(x_0) & assumption \\
+			\lnot Q(x_0) & $\forall$e 7 \\
+			\lnot P(x_0) \land \lnot Q(x_0) & $\land$i 9, 10 \\
+			\lnot (P(x_0) \lor Q(x_0)) & DeMorgan 11 \\
+			P(x_0) \lor Q(x_0) & $\forall$e 1 \\
+			\perp & $\lnot$i 13, 12
+		\end{subproof}
+		\perp & $\exists$e 5, 8--14
+	\end{subproof}
+	\forall x P(x) \lor \exists x Q(x) & PBC 2--15 \qed
+\end{logicproof}
+
+\paragraph{i.}
+\begin{logicproof}{2}
+	\exists x(\lnot P(x) \land \lnot Q(x)) & premise \\
+	\begin{subproof}
+		\lnot\exists x (\lnot (P(x) \land Q(x))) & assumption \\
+		\forall x (\lnot\lnot(P(x) \land Q(x))) & $\lnot\exists$e 2 \\
+		\begin{subproof}
+			x_0 & assumption \\
+			\lnot P(x_0) \land \lnot Q(x_0) & assumption \\
+			\lnot P(x_0) & $\land$e$_1$ 5 \\
+			\lnot\lnot(P(x_0) \land Q(x_0)) & $\forall$e 3 \\
+			P(x_0) \land Q(x_0) & $\lnot\lnot$e 7 \\
+			P(x_0) & $\land$e$_1$ 8 \\
+			\perp & $\lnot$i 6, 9
+		\end{subproof}
+		\perp & $\exists$e 1, 4--10
+	\end{subproof}
+	\exists x (\lnot (P(x) \land Q(x))) & PBC 2--11 \qed
+\end{logicproof}
+
+\begin{problem}{2.3.11}
+	The proofs of the sequents below combine the proof rules for equality and quantifiers. We write $\phi \leftrightarrow \psi$ as an abbreviation for $(\phi \rightarrow \psi) \land (\psi \rightarrow \phi)$. Find proofs for
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task[\textbf{b.}] $P(b), \forall x \forall y (P(x) \land P(y) \rightarrow x = y) \vdash \forall x (P(x) \leftrightarrow x = b)$.
+		\task[\textbf{d.}] $\forall x (P(x) \leftrightarrow x = b) \vdash P(b) \land \forall x \forall y (P(x) \land P(y) \rightarrow x = y)$.
+	\end{tasks}
+\end{problem}
+
+\paragraph{b.}
+\begin{logicproof}{2}
+	P(b) & premise \\
+	\forall x \forall y (P(x) \land P(y) \rightarrow x = y) & premise \\
+	\begin{subproof}
+		x_0 & assumption \\
+		\begin{subproof}
+			P(x_0) & assumption \\
+			P(x_0) \land P(b) & $\land$i 4, 1 \\
+			\forall y (P(x_0) \land P(y) \rightarrow x_0 = y) & $\forall$e 2 \\
+			P(x_0) \land P(b) \rightarrow x_0 = b & $\forall$e 6 \\
+			x_0 = b & $\rightarrow$e 7, 5
+		\end{subproof}
+		P(x_0) \rightarrow x_0 = b & $\rightarrow$i 4--8 \\
+		\begin{subproof}
+			x_0 = b & assumption \\
+			b = x_0 & (Lemma 1), 10 \\
+			P(x_0) & $=$e 11, 1
+		\end{subproof}
+		x_0 = b \rightarrow P(x_0) & $\rightarrow$i 10--12 \\
+		P(x_0) \leftrightarrow x_0 = b & $\land$i 9, 13
+	\end{subproof}
+	\forall x (P(x) \leftrightarrow x = b) & $\forall$i 3--14 \qed
+\end{logicproof}
+
+\newpage
+\paragraph{d.}
+\begin{logicproof}{3}
+	\forall x (P(x) \leftrightarrow x = b) & premise \\
+	\begin{subproof}
+		x_0 & assumption \\
+		\begin{subproof}
+			y_0 & assumption \\
+			\begin{subproof}
+				P(x_0) \land P(y_0) & assumption \\
+				P(x_0) & $\land$e$_1$ 5 \\
+				P(y_0) & $\land$e$_2$ 5 \\
+				P(x_0) \leftrightarrow x_0 = b & $\forall$e 1 \\
+				P(x_0) \rightarrow x_0 = b & $\land$e$_1$ 7 \\
+				x_0 = b & $\rightarrow$e 8, 5 \\
+				P(y_0) \leftrightarrow y_0 = b & $\forall$e 1 \\
+				P(y_0) \rightarrow y_0 = b & $\land$e$_1$ 10 \\
+				y_0 = b & $\rightarrow$e 11, 6 \\
+				b = y_0 & (Lemma 1), 12 \\
+				x_0 = y_0 & $=$e 13, 9
+			\end{subproof}
+			P(x_0) \land P(y_0) \rightarrow x_0 = y_0 & $\rightarrow$i 4--14
+		\end{subproof}
+		\forall y (P(x_0) \land P(y) \rightarrow x_0 = y) & $\forall$i 3--15
+	\end{subproof}
+	\forall x \forall y (P(x) \land P(y) \rightarrow x = y) & $\forall$i 2--16 \\
+	P(b) \leftrightarrow b = b & $\forall$e 1 \\
+	P(b) \leftrightarrow \top & {} \\
+	\top \rightarrow P(b) & $\land$e$_2$ 19 \\
+	P(b) & $\rightarrow$e 20 \\
+	P(b) \land \forall x \forall y (P(x) \land P(y) \rightarrow x = y) & $\land$i 21, 17 \qed
+\end{logicproof}
+
+\begin{problem}{2.3.13}
+	By natural deduction, show the validity of
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task[\textbf{e.}] $\forall x (P(x) \lor Q(x)), \exists x \lnot Q(x), \forall x (R(x) \rightarrow \lnot P(x)) \vdash \exists x \lnot R(x)$.
+		\task[\textbf{f.}] $\forall x (P(x) \rightarrow (Q(x) \lor R(x))), \lnot\exists x (P(x) \land R(x)) \vdash \forall x (P(x) \rightarrow Q(x))$.
+		\task[\textbf{g.}] $\exists x \exists y (S(x, y) \lor S(y, x)) \vdash \exists x \exists y S(x, y)$.
+		\task[\textbf{h.}] $\exists x (P(x) \land Q(x)), \forall x (P(x) \rightarrow R(x)) \vdash \exists x (R(x) \land Q(x))$.
+	\end{tasks}
+\end{problem}
+
+\newpage
+\paragraph{e.}
+\begin{logicproof}{2}
+	\forall x (P(x) \lor Q(x)) & premise \\
+	\exists x \lnot Q(x) & premise \\
+	\forall x (R(x) \rightarrow \lnot P(x)) & premise \\
+	\begin{subproof}
+		x_0 & assumption \\
+		\lnot Q(x_0) & assumption \\
+		R(x_0) \rightarrow \lnot P(x_0) & $\forall$e 3 \\
+		P(x_0) \lor Q(x_0) & $\forall$e 1 \\
+		\begin{subproof}
+			P(x_0) & assumption \\
+			\lnot\lnot P(x_0) & $\lnot\lnot$i 8 \\
+			\lnot R(x_0) & MT 6, 9
+		\end{subproof}
+		\begin{subproof}
+			Q(x_0) & assumption \\
+			\perp & $\lnot$i 11, 5 \\
+			\lnot R(x_0) & $\perp$e 12
+		\end{subproof}
+		\lnot R(x_0) & $\lor$e 7, 8--10, 11--13 \\
+		\exists x \lnot R(x) & $\exists$i 14
+	\end{subproof}
+	\exists x \lnot R(x) & $\exists$e 2, 4--15 \qed
+\end{logicproof}
+
+\paragraph{f.}
+\begin{logicproof}{4}
+	\forall x (P(x) \rightarrow (Q(x) \lor R(x))) & premise \\
+	\lnot\exists x (P(x) \land R(x)) & premise \\
+	\forall x (\lnot (P(x) \land R(x))) & $\lnot\exists$e 2 \\
+	\begin{subproof}
+		x_0 & assumption \\
+		\begin{subproof}
+			P(x_0) & assumption \\
+			P(x_0) \rightarrow (Q(x_0) \lor R(x_0)) & $\forall$e 1 \\
+			\lnot (P(x_0) \land R(x_0)) & $\forall$e 3 \\
+			Q(x_0) \lor R(x_0) & $\rightarrow$e 6, 5 \\
+			\lnot P(x_0) \lor \lnot R(x_0) & DeMorgan 7 \\
+			\begin{subproof}
+				Q(x_0) & assumption
+			\end{subproof}
+			\begin{subproof}
+				R(x_0) & assumption \\
+				\begin{subproof}
+					\lnot P(x_0) & assumption \\
+					\perp & $\lnot$i 5, 12 \\
+					Q(x_0) & $\perp$e 13
+				\end{subproof}
+				\begin{subproof}
+					\lnot R(x_0) & assumption\\
+					\perp & $\lnot$i 11, 15 \\
+					Q(x_0) & $\perp$e 16
+				\end{subproof}
+				Q(x_0) & $\lor$e 9, 12--14, 15--17
+			\end{subproof}
+			Q(x_0) & $\lor$e 8, 10, 11--18
+		\end{subproof}
+		P(x_0) \rightarrow Q(x_0) & $\rightarrow$i 5--19
+	\end{subproof}
+	\forall x (P(x) \rightarrow Q(x)) & $\forall$i 4--20 \qed
+\end{logicproof}
+
+\newpage
+\paragraph{g.}
+\begin{logicproof}{2}
+	\exists x \exists y (S(x, y) \lor S(y, x)) \\
+	\begin{subproof}
+		x_0 & assumption \\
+		\exists y (S(x_0, y) \lor S(y, x_0)) & assumption \\
+		\begin{subproof}
+			y_0 & assumption \\
+			S(x_0, y_0) \lor S(y_0, x_0) & assumption \\
+			S(x_0, y_0) & $\lor$e$_1$ 5 \\
+			\exists y S(x_0, y) & $\exists$i 6 \\
+			\exists x \exists y S(x, y) & $\exists$i 7
+		\end{subproof}
+		\exists x \exists y S(x, y) & $\exists$e 3, 4--8
+	\end{subproof}
+	\exists x \exists y S(x, y) & $\exists$e 1, 2--9 \qed
+\end{logicproof}
+
+\paragraph{h.}
+\begin{logicproof}{2}
+	\exists x (P(x) \land Q(x)) & premise \\
+	\forall x (P(x) \rightarrow R(x)) & premise \\
+	\begin{subproof}
+		x_0 & assumption \\
+		P(x_0) \land Q(x_0) & assumption \\
+		P(x_0) & $\land$e$_1$ 4 \\
+		Q(x_0) & $\land$e$_2$ 4 \\
+ 		P(x_0) \rightarrow R(x_0) & $\forall$e 2 \\
+		R(x_0) & $\rightarrow$e 7, 5 \\
+		R(x_0) \land Q(x_0) & $\land$i 8, 6 \\
+		\exists x (R(x) \land Q(x)) & $\exists$i 9
+	\end{subproof}
+	\exists x (R(x) \land Q(x)) & $\exists$e 1, 3--10 \qed
+\end{logicproof}
+
+\begin{problem}{2.3.14}
+	Translate the following argument into a sequent in predicate logic using a suitable set of predicate symbols:
+	\begin{quote}
+		If there are any tax payers, then all politicians are tax payers. If there are any philanthropists, then all tax payers are philanthropists. So, if there are any tax-paying philanthropists, then all politicians are philanthropists.
+	\end{quote}
+	Now come up with a proof of that sequent in predicate logic.
+\end{problem}
+
+Define the following predicates as follows:
+\begin{itemize}
+	\item $T(x)$: $x$ is a tax payer
+	\item $P(x)$: $x$ is a politician
+	\item $H(x)$: $x$ is a philanthropist
+\end{itemize}
+The given argument can then be translated into the following sequent:
+\[
+	\exists x T(x) \rightarrow \forall x(P(x) \rightarrow T(x)), \exists x H(x) \rightarrow \forall x (T(x) \rightarrow H(x)) \vdash \exists x (T(x) \land H(x)) \rightarrow \forall x (P(x) \rightarrow H(x)).
+\]
+This sequent is in fact true. A proof follows.
+
+\newpage
+\begin{logicproof}{4}
+	\exists x T(x) \rightarrow \forall x(P(x) \rightarrow T(x)) & premise \\
+	\exists x H(x) \rightarrow \forall x (T(x) \rightarrow H(x)) & premise \\
+	\begin{subproof}
+		\exists x (T(x) \land H(x)) & assumption \\
+		\begin{subproof}
+			x_0 & assumption \\
+			T(x_0) \land H(x_0) & assumption \\
+			T(x_0) & $\land$e$_1$ 5 \\
+			\exists x T(x) & $\exists$i 6 \\
+			\forall x (P(x) \rightarrow T(x)) & $\rightarrow$e 1, 7 \\
+			H(x_0) & $\land$e$_2$ 5 \\
+			\exists x H(x) & $\exists$i 9 \\
+			\forall x (T(x) \rightarrow H(x)) & $\rightarrow$e 2, 10 \\
+			\begin{subproof}
+				\widetilde{x} & assumption \\
+				P(\widetilde{x}) \rightarrow T(\widetilde{x}) & $\forall$e 8 \\
+				T(\widetilde{x}) \rightarrow H(\widetilde{x}) & $\forall$e 11 \\
+				\begin{subproof}
+					P(\widetilde{x}) & assumption \\
+					T(\widetilde{x}) & $\rightarrow$e 13, 15 \\
+					H(\widetilde{x}) & $\rightarrow$e 14, 16
+				\end{subproof}
+				P(\widetilde{x}) \rightarrow H(\widetilde{x}) & $\rightarrow$i 15--17
+			\end{subproof}
+			\forall x (P(x) \rightarrow H(x)) & $\forall$i 12--18
+		\end{subproof}
+		\forall x (P(x) \rightarrow H(x)) & $\exists$e 3, 4--19
+	\end{subproof}
+	\exists x (T(x) \land H(x)) \rightarrow \forall x (P(x) \rightarrow H(x)) & $\rightarrow$i 3--20 \qed
+\end{logicproof}
+
+\end{document}
