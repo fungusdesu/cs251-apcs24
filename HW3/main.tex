@@ -1,0 +1,312 @@
+\documentclass{exam}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage[main=english, vietnamese]{babel}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{amsthm}
+\usepackage{tcolorbox}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{centernot}
+\usepackage{multicol}
+\usepackage{cases}
+\usepackage{physics}
+\usepackage[shortlabels]{enumitem}
+\usepackage{tasks}
+\usepackage{cancel}
+\usepackage{tikz-qtree}
+\usepackage{stix2}
+\usepackage{logicproof}
+
+\tikzset{
+	every tree node/.style={
+		draw,
+		square,
+		minimum size=8mm,
+		inner sep=1pt
+	},
+	level distance=15mm,
+	edge from parent/.style={
+		draw,
+        edge from parent path={(\tikzparentnode) -- (\tikzchildnode)}
+	}
+}
+
+\newcommand{\paren}[1]{\left(#1\right)}
+\newcommand{\curly}[1]{\left\{#1\right\}}
+\newcommand{\lxor}{\oplus}
+\newcommand{\rel}{\mathrel{R}}
+\newcommand{\nrel}{\mathrel{\cancel{R}}}
+
+\allowdisplaybreaks
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\makeatletter
+\long\def\paragraph{%
+  \@startsection{paragraph}{4}%
+  {\z@}{2ex \@plus 1ex \@minus .2ex}{-1em}%
+  {\normalfont\normalsize\bfseries}%
+}
+\makeatother
+
+\makeatletter
+\def\@xequals@fill{\arrowfill@\Relbar\Relbar\Relbar}
+\newcommand*\xequals[2][]{\DOTSB\ext@arrow0055\@xequals@fill{#1}{#2}}
+\makeatother
+
+\DeclareMathOperator{\lcm}{lcm}
+\DeclareMathOperator{\spn}{span}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\nullity}{nullity}
+
+\newbox\mizukibox
+\setbox\mizukibox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{mizuki.png}}}
+\def\mizuki{\copy\mizukibox}
+
+\newbox\skullbox
+\setbox\skullbox\hbox{
+\raisebox{-2.5pt}{\includegraphics[height=2.5ex]{skull.png}}}
+\def\bendingskull{\copy\skullbox}
+
+\makeatletter
+\renewcommand*\env@matrix[1][*\c@MaxMatrixCols c]{%
+  \hskip -\arraycolsep
+  \let\@ifnextchar\new@ifnextchar
+  \array{#1}}
+\makeatother
+
+\NewTColorBox{problem}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Problem #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\NewTColorBox{lemma}{m}{
+  standard jigsaw,
+  sharp corners,
+  boxrule=0.4pt,
+  coltitle=black,
+  colframe=black,
+  opacityback=0,
+  opacitybacktitle=0,
+  fonttitle=\normalfont\bfseries\upshape,
+  fontupper=\normalfont,
+  title={Lemma #1},
+  after title={.},
+  attach title to upper={\ },
+}
+
+\renewcommand\qedsymbol{$\mizuki$}
+
+\title{CS251 - Homework 3}
+\author{\foreignlanguage{vietnamese}{Trần Tôn Minh Kỳ}}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\begin{problem}{2.4.2}
+	Consider the sentence $\phi \xequals{\text{def}} \forall x \exists y \exists z (P(x, y) \land P(z, y) \land (P(x, z) \rightarrow P(z, x)))$. Which of the following models satisfies $\phi$?
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task The model $\mathcal M$ consists of the set of natural numbers with $P^{\mathcal M} \xequals{\text{def}} \{(m, n) \mid m < n\}$.
+		\task The model $\mathcal M'$ consists of the set of natural numbers with $P^{\mathcal M'} \xequals{\text{def}} \{(m, 2*m) \mid m \text{ natural number}\}$.
+		\task The model $\mathcal M''$ consists of the set of natural numbers with $P^{\mathcal M''} \xequals{\text{def}} \{(m, n) \mid m < n + 1\}$
+	\end{tasks}
+\end{problem}
+
+\paragraph{a.} Suppose an arbitrary $x$. Choose $y = x + 1$; then it is readily apparent that $P(x, y)$. Choose $z = y - 1$; it is also obvious that $P(z, y)$. Observe that since $z = y - 1 = x$, we obtain $P(x, z)$ is false and thus $P(x, z) \rightarrow P(z, x)$ is true. Therefore, we yield that the model $\mathcal M$ satisfies $\phi$.
+
+\paragraph{b.} Suppose an arbitrary $x$. Choose $y = 2x$ in order to satisfy $P(x, y)$, then $z = x$. Because $P(x, z)$ is false, the implication evaluates to true and thus the model $\mathcal M'$ satisfies $\phi$.
+
+\paragraph{c.} Suppose an arbitrary $x$. Choose $y = x$ to satisfy $P(x, y)$ and choose $z = y$ to satisfy $P(z, y)$. Because $P(x, z)$ and $P(z, x)$ both evaluate to true, the implication does so as well and thus the model $\mathcal M''$ satisfies $\phi$.
+
+\begin{problem}{2.4.3}
+	Let $P$ be a predicate with two arguments. Find a model which satisfies the sentence $\forall x \lnot P(x, x)$; also find one which doesn't.
+\end{problem}
+
+Define $\mathcal M$ to be the model consisting of the set of natural numbers with $P^{\mathcal M} \xequals{\text{def}} \{(m, n) \mid m < n\}$. This model satisfies the given formula, as $x < x$ is false for any arbitrary $x$. Additionally, define $\mathcal M'$ to be the model consisting of the set of natural numbers with $P^{\mathcal M'} \xequals{\text{def}} \{(m, n) \mid m = n\}$. Because $x = x$ is true for any arbitrary $x$, this model does not safisfy the formula.
+
+\begin{problem}{2.3.7}
+	Show the semantic entailment $\forall x \lnot \phi \vDash \lnot\exists x \phi$; for that you have to take any model which satisfies $\forall x \lnot \phi$ and you have to reason why this model must also satisfy $\lnot \exists x \phi$. You should do this in a similar way to the examples in Section 2.4.2.
+\end{problem}
+\begin{proof}
+	Suppose a model $\mathcal M$ satisfying $\forall x \lnot \phi$; we obtain $\mathcal M \vDash_{[x \mapsto a]} \lnot \phi$ holds for all $a$ and thus $\mathcal M \vDash_{[x \mapsto a]} \phi$ holds for none of the $a$. This shows that $\mathcal M \cancel{\vDash}_{[x \mapsto a]} \exists x \phi$ and so we arrive to $\mathcal M \vDash_{[x \mapsto a]} \lnot \exists x \phi$.
+\end{proof}
+
+\begin{problem}{2.4.8}
+	Show the semantic entailment $\forall x P(x) \lor \forall x Q(x) \vDash \forall x (P(x) \lor Q(x))$.
+\end{problem}
+
+\begin{proof}
+	Suppose a model $\mathcal M$ satisfying $\forall x P(x) \lor \forall x Q(x)$. Suppose $\mathcal M \vDash_l \forall x P(x)$, then $\mathcal M \vDash_{[x \mapsto a]} P(x)$ for all $a$. Thus one also can conclude $\mathcal M \vDash_{[x \mapsto a]} (P(x) \lor Q(x))$. By symmetry, this also works for the case $\mathcal M \vDash_l \forall x Q(x)$ and thus $\mathcal M \vDash_{[x \mapsto a]} (P(x) \lor Q(x))$. Consequently, $\mathcal M \vDash_l \forall x (P(x) \lor Q(x))$, as desired.
+\end{proof}
+
+\begin{problem}{2.4.10}
+	Is $\forall x (P(x) \lor Q(x)) \vDash \forall x P(x) \lor \forall x Q(x)$ a semantic entailment? Justify your answer.
+\end{problem}
+
+The given string is not a semantic entailment. Let $\mathcal M$ be a model consisting of the set of natural numbers, where $P^{\mathcal M} = \{(m, n) \mid m < 0\}$ and $Q^{\mathcal M} = \{(m, n) \mid m \ge 0\}$. Clearly $\mathcal M \vDash_l \forall x (P(x) \lor Q(x))$. However, not every element is below $0$ and not every element falls below 0 and so $\mathcal M \vDash \forall x P(x) \lor \forall x Q(x)$ does not hold.
+
+\begin{lemma}{1}
+	\[
+		\phi \rightarrow \psi \dashVdash \lnot \phi \lor \psi
+	\]
+\end{lemma}
+\begin{proof}
+	Well-known.
+\end{proof}
+
+\begin{lemma}{2}
+	\[
+		\lnot(\phi \rightarrow \psi) \dashVdash \phi \land \lnot\psi
+	\]
+\end{lemma}
+\begin{proof}
+	Well-known.
+\end{proof}
+
+\begin{problem}{2.4.12}
+	For each of the formula of predicate logic below, either find a model which does not satisfy it, or prove it is valid:
+	\begin{tasks}[label=\textbf{\alph*.}]
+		\task[\textbf{a.}] $(\forall x \forall y (S(x, y) \rightarrow S(y, x))) \rightarrow (\forall x \lnot S(x, x))$.
+		\task[\textbf{c.}] $(\forall x (P(x) \rightarrow \exists y Q(y))) \rightarrow (\forall x \exists y (P(x) \rightarrow Q(y)))$.
+		\task[\textbf{d.}] $(\forall x \exists y (P(x) \rightarrow Q(y))) \rightarrow (\forall x (P(x) \rightarrow \exists y Q(y)))$.
+		\task[\textbf{f.}] $(\forall x \forall y (S(x, y) \rightarrow (x = y))) \rightarrow (\forall x \lnot S(z, z))$.
+		\task[\textbf{h.}] $\forall x \forall y ((P(x) \rightarrow P(y)) \land (P(y) \rightarrow P(x)))$.
+		\task[\textbf{i.}] $(\forall x ((P(x) \rightarrow Q(x)) \land (Q(x) \rightarrow P(x)))) \rightarrow ((\forall x P(x)) \rightarrow (\forall x Q(x)))$.
+	\end{tasks}
+\end{problem}
+
+For every formula, we apply Gödel's completeness theorem to prove semantic validity via syntactic validity.
+\paragraph{a.} For ease of reference, let $\phi$ be the formula
+\[
+	(\forall x \forall y (S(x, y) \rightarrow S(y, x))) \rightarrow (\forall x \lnot S(x, x)).
+\]
+Then $\phi$ is not valid. Define by $\mathcal M$ the model consisting of natural numbers in which the predicate $S^{\mathcal M}$ is the equality predicate $=$. The antecedant is clearly true due to the commutativity of equality, yet the consequent is false due to the reflexitivity of equality. Thus, we obtain that $\mathcal M \vDash_l \phi$ does not hold.
+
+\paragraph{c.} For ease of reference, let $\phi$ be the formula
+\[
+	(\forall x (P(x) \rightarrow \exists y Q(y))) \rightarrow (\forall x \exists y (P(x) \rightarrow Q(y))).
+\]
+Then $\phi$ is valid. A proof follows.
+\begin{logicproof}{3}
+	\begin{subproof}
+		\lnot (\forall x (P(x) \rightarrow \exists y Q(y))) \rightarrow (\forall x \exists y (P(x) \rightarrow Q(y))) & assumption \\
+		(\forall x (P(x) \rightarrow \exists y Q(y))) \land \lnot \forall x \exists y (P(x) \rightarrow Q(y)) & (Lemma 2) 1 \\
+		\forall x (P(x) \rightarrow \exists y Q(y)) & $\land$e$_1$ 2 \\
+		\lnot \forall x \exists y (P(x) \rightarrow Q(y)) & $\land$e$_2$ 2 \\
+		\exists x (\lnot \exists y (P(x) \rightarrow Q(y))) & $\lnot\forall$e 4 \\
+		\begin{subproof}
+			x_0 & assumption \\
+			\lnot \exists y (P(x_0) \rightarrow Q(y)) & assumption \\
+			\forall y (\lnot(P(x_0) \rightarrow Q(y))) & $\lnot\exists$e 7 \\
+			P(x_0) \rightarrow \exists y Q(y) & $\forall$e 3 \\
+			\exists y (P(x_0) \rightarrow Q(y)) & (2.3.9b) 9 \\
+			\begin{subproof}
+				y_0 & assumption \\
+				P(x_0) \rightarrow Q(y_0) & assumption \\
+				\lnot (P(x_0) \rightarrow Q(y_0)) & $\forall$e 8 \\
+				\perp & $\lnot$i 12, 13
+			\end{subproof}
+			\perp & $\exists$e 10, 11--14
+		\end{subproof}
+		\perp & $\exists$e 5, 6--15
+	\end{subproof}
+	(\forall x (P(x) \rightarrow \exists y Q(y))) \rightarrow (\forall x \exists y (P(x) \rightarrow Q(y))) & PBC 1--16 \qed
+\end{logicproof}
+
+\paragraph{d.} For ease of referencee, let $\phi$ be the formula
+\[
+	(\forall x \exists y (P(x) \rightarrow Q(y))) \rightarrow (\forall x (P(x) \rightarrow \exists y Q(y))).
+\]
+Then $\phi$ is valid. A proof follows.
+
+\begin{logicproof}{3}
+	\begin{subproof}
+		\lnot((\forall x \exists y (P(x) \rightarrow Q(y))) \rightarrow (\forall x (P(x) \rightarrow \exists y Q(y)))) & assumption \\
+		(\forall x \exists y (P(x) \rightarrow Q(y))) \land \lnot\forall x (P(x) \rightarrow \exists y Q(y)) & (Lemma 2), 1 \\
+		\forall x \exists y (P(x) \rightarrow Q(y)) & $\land$e$_1$ 2 \\
+		\lnot\forall x (P(x) \rightarrow \exists y Q(y)) & $\land$e$_2$ 2 \\
+		\exists x (\lnot(P(x) \rightarrow \exists y Q(y))) & $\lnot\forall$e 4 \\
+		\begin{subproof}
+			x_0 & assumption \\
+			\lnot(P(x_0) \rightarrow \exists y Q(y)) & assumption \\
+			P(x_0) \land \lnot \exists y Q(y) & (Lemma 2), 1 \\
+			P(x_0) & $\land$e$_1$ 8 \\
+			\lnot\exists y Q(y) & $\land$e$_2$ 8 \\
+			\forall y \lnot Q(y) & $\lnot\exists$e 10 \\
+			\exists y (P(x_0) \rightarrow Q(y)) & $\forall$e 3 \\
+			\begin{subproof}
+				y_0 & assumption \\
+				P(x_0) \rightarrow Q(y_0) & assumption \\
+				Q(y_0) & $\rightarrow$e 14, 9 \\
+				\lnot Q(y_0) & $\forall$e 11 \\
+				\perp & $\lnot$i 15, 16
+			\end{subproof}
+			\perp & $\exists$e 12, 13--17
+		\end{subproof}
+		\perp & $\exists$e 5, 6--18
+	\end{subproof}
+	(\forall x \exists y (P(x) \rightarrow Q(y))) \rightarrow (\forall x (P(x) \rightarrow \exists y Q(y))) & PBC 1--19 \qed
+\end{logicproof}
+
+\paragraph{f.} For ease of reference, let $\phi$ be the formula
+\[
+	(\forall x \forall y (S(x, y) \rightarrow (x = y))) \rightarrow (\forall x \lnot S(z, z)).
+\]
+Then $\phi$ is not valid. Define by $\mathcal M$ the model consisting of natural numbers in which the predicate $S^{\mathcal M}$ is the equality predicate $=$. The antecedant is obviously true, yet the consequent is false due to the reflexitivity of equality. Thus, we obtain that $\mathcal M \vDash_l \phi$ does not hold.
+
+\paragraph{h.} For ease of reference, let $\phi$ be the formula
+\[
+	\forall x \forall y ((P(x) \rightarrow P(y)) \land (P(y) \rightarrow P(x))).
+\]
+Then $\phi$ is not valid. Define by $\mathcal M$ the model consisting of natural numbers in which the predicate $P^{\mathcal M}$ is the greater-than predicate $>$. Choose the environment $l[x \mapsto 67, y \mapsto 69]$; then it's clear only one of the conjunction formula holds and thus the whole conjunction does not hold. We therefore obtain that $\mathcal M \vDash_{[x \mapsto 67, y \mapsto 69]} \phi$ does not hold.
+
+\paragraph{i.} For ease of reference, let $\phi$ be the formula
+\[
+	(\forall x ((P(x) \rightarrow Q(x)) \land (Q(x) \rightarrow P(x)))) \rightarrow ((\forall x P(x)) \rightarrow (\forall x Q(x)))
+\]
+Then $\phi$ is valid. A proof follows.
+\begin{logicproof}{3}
+	\begin{subproof}
+		\lnot((\forall x ((P(x) \rightarrow Q(x)) \land (Q(x) \rightarrow P(x)))) \rightarrow ((\forall x P(x)) \rightarrow (\forall x Q(x)))) & assumption \\
+		(\forall x ((P(x) \rightarrow Q(x)) \land (Q(x) \rightarrow P(x)))) \land \lnot ((\forall x P(x)) \rightarrow (\forall x Q(x))) & (Lemma 2) 1 \\
+		\forall x ((P(x) \rightarrow Q(x)) \land (Q(x) \rightarrow P(x))) & $\land$e$_1$ 2 \\
+		\lnot ((\forall x P(x)) \rightarrow (\forall x Q(x))) & $\land$e$_2$ 2 \\
+		(\forall x P(x)) \land \lnot (\forall x Q(x)) & (Lemma 2) 4 \\
+		\forall x P(x) & $\land$e$_1$ 5 \\
+		\lnot\forall x Q(x) & $\land$e$_2$ 5 \\
+		\exists x \lnot Q(x) & $\lnot\forall$e 7 \\
+		\begin{subproof}
+			x_0 & assumption \\
+			\lnot Q(x_0) & assumption \\
+			(P(x_0) \rightarrow Q(x_0)) \land (Q(x_0) \rightarrow P(x_0)) & $\forall$e 3 \\
+			P(x_0) \rightarrow Q(x_0) & $\land$e$_1$ 11 \\
+			\lnot P(x_0) & MT 12, 10 \\
+			P(x_0) & $\forall$e 6 \\
+			\perp & $\lnot$i 14, 13
+		\end{subproof}
+		\perp & $\exists$e 8, 9--15
+	\end{subproof}
+	(\forall x ((P(x) \rightarrow Q(x)) \land (Q(x) \rightarrow P(x)))) \rightarrow ((\forall x P(x)) \rightarrow (\forall x Q(x))) & PBC 1--16 \qed
+\end{logicproof}
+
+\end{document}
